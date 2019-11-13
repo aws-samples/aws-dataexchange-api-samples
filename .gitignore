@@ -1,3 +1,4 @@
 Gemfile.lock
 .env
 vendor
+.DS_Store
