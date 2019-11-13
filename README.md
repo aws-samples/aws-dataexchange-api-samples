@@ -1,10 +1,12 @@
+![Data Exchange logo](logo.png)
+
 # AWS Data Exchange Samples
 
 [AWS Data Exchange](https://console.aws.amazon.com/dataexchange/) is a service that makes it easy for millions of AWS customers to securely find, subscribe to, and use third-party data in the cloud. This repository contains a collection of samples that interact with the AWS Data Exchange API.
 
 ## Subscriber Samples
 
-Examples of interacting with the AWS Data Exchange API from the data subscriber side can be found in [/subscribers](subscribers). 
+Examples of interacting with the AWS Data Exchange API from the data subscriber side can be found in [/subscribers](subscribers).
 
 ### Ruby
 
