@@ -1,0 +1,25 @@
+{
+  "name": "all-entitled-datasets",
+  "version": "1.0.0",
+  "description": "This sample retrieves a list of all subscriber's entitled data sets.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "ts-node index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aws-samples/aws-dataexchange-api-samples.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aws-samples/aws-dataexchange-api-samples/issues"
+  },
+  "homepage": "https://github.com/aws-samples/aws-dataexchange-api-samples#readme",
+  "dependencies": {
+    "aws-sdk": "^2.571.0",
+    "typescript": "^3.4.3",
+    "@types/node": "^12.12.2",
+    "ts-node": "^8.5.0"
+  }
+}
