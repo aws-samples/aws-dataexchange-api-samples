@@ -9,11 +9,11 @@ Examples of interacting with the AWS Data Exchange API from the data subscriber 
 ### Ruby
 
 * [all-entitled-datasets](subscribers/ruby/all-entitled-datasets): Lists all data sets one is subscribed to.
-* [most-expensive-neighborhoods-in-nyc](subscribers/ruby/most-expensive-neighborhoods-in-nyc): Most expensive neighborhoods in NYC by median price using data from 2014 to 2018.
+* [most-expensive-neighborhoods-in-nyc](subscribers/ruby/most-expensive-neighborhoods-in-nyc): Most expensive neighborhoods in NYC by median price.
 
 ## Provider Samples
 
-Examples of interacting with the AWS Data Exchange API from the data provider side can be found in [/subscribers](subscribers)
+Examples of interacting with the AWS Data Exchange API from the data provider side can be found in [/subscribers](subscribers).
 
 ## License
 
