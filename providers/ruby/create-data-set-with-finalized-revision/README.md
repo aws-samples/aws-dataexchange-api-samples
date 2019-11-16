@@ -1,4 +1,4 @@
-# All Entitled Data Sets
+# Create a New Data Set with a Finalized Revision
 
 This sample creates a new Data Set with a finalized revision using data in S3.
 
