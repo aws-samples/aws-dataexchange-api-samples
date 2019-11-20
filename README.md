@@ -31,6 +31,10 @@ Examples of interacting with the AWS Data Exchange API from the data provider si
 
 * [create-data-set-with-finalized-revision](providers/ruby/create-data-set-with-finalized-revision): Create a data set with a finalized revision.
 
+### Python
+
+* [download-entitled-assets](subscribers/python/download-entitled-assets.py): Download all assets to which you've subscribed.
+
 ## License
 
 This library is licensed under the MIT-0 License. See the [LICENSE](LICENSE) file.
