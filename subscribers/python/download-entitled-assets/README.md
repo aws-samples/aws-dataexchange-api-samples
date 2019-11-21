@@ -32,3 +32,4 @@ Then execute the script, optionally providing an S3 bucket to stage your downloa
 $ ./download-entitled-assets.py [--s3-bucket=<bucket-name>]
 ```
 
+# Import asset to pandas

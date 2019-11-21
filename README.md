@@ -33,7 +33,8 @@ Examples of interacting with the AWS Data Exchange API from the data provider si
 
 ### Python
 
-* [download-entitled-assets](subscribers/python/download-entitled-assets.py): Download all assets to which you've subscribed.
+* [download-entitled-assets](subscribers/python/download-entitled-assets/download-entitled-assets.py): Download all assets to which you've subscribed.
+* [pandas-describe-csv](subscribers/python/pandas-describe-csv/pandas-describe-csv.py): Download a CSV asset by arn, import it into a pandas Data Frame, and describe() the result.
 
 ## License
 
