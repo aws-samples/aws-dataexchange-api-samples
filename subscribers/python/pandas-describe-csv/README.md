@@ -31,7 +31,7 @@ to stage the file locally.
 $ ./pandas-describe-csv.py <asset-arn>
 ```
 
-Example output.
+Example output (using this [sample product](https://console.aws.amazon.com/dataexchange/home?region=us-east-1#/products/prodview-yfrvk7kf66aiy)).
 
 ```
 $ ./pandas-describe-csv.py arn:aws:dataexchange:us-east-1::data-sets/5c8f9ac07883d81d8f25e2b9dd28efce/revisions/40c042c6b24286f1acf36b49e5748b36/assets/770435e0fd1aa970450b1b7c2e6a39f9 
