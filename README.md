@@ -23,6 +23,11 @@ Examples of interacting with the AWS Data Exchange API from the data subscriber 
 
 * [all-entitled-datasets](subscribers/go/all-entitled-datasets): Lists all data sets one is subscribed to.
 
+### Python
+
+* [download-entitled-assets](subscribers/python/download-entitled-assets): Download all assets to which you've subscribed.
+* [pandas-describe-csv](subscribers/python/pandas-describe-csv): Download a csv asset by Arn, import it into a pandas data frame, and `describe()` the result.
+
 ## Provider Samples
 
 Examples of interacting with the AWS Data Exchange API from the data provider side can be found in [/providers](providers).
@@ -30,10 +35,6 @@ Examples of interacting with the AWS Data Exchange API from the data provider si
 ### Ruby
 
 * [create-data-set-with-finalized-revision](providers/ruby/create-data-set-with-finalized-revision): Create a data set with a finalized revision.
-
-### Python
-
-* [download-entitled-assets](subscribers/python/download-entitled-assets.py): Download all assets to which you've subscribed.
 
 ## License
 
