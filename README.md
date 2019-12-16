@@ -10,6 +10,10 @@
 
 Examples of interacting with the AWS Data Exchange API from the data subscriber side can be found in [/subscribers](subscribers).
 
+### Java
+
+* [all-entitled-datasets](subscribers/java/all-entitled-datasets): Lists all data sets one is subscribed to.
+
 ### Ruby
 
 * [all-entitled-datasets](subscribers/ruby/all-entitled-datasets): Lists all data sets one is subscribed to.
