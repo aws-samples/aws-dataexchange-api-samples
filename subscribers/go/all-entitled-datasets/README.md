@@ -1,6 +1,6 @@
-# All Entitled Data Sets
+# All Entitled Data Sets (Go)
 
-This sample retrieves a list of all subscriber's entitled data sets.
+This sample retrieves a list of all subscriber's entitled data sets, in Go.
 
 To run the sample, set `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and optionally `AWS_SESSION_TOKEN` in your ~/.aws/credentials file.
 
