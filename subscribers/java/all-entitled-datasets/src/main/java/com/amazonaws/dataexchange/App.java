@@ -7,12 +7,12 @@ public class App {
     public static void main(String[] args) {
         AWSDataExchange client = AWSDataExchangeClientBuilder.defaultClient();
 
-        ListDataSetsRequest request = new ListDataSetsRequest()
+        ListDataSetsRequest listDataSetsRequest = new ListDataSetsRequest()
                 .withOrigin("ENTITLED");
 
-        ListDataSetsResult result = client.listDataSets(request);
+        ListDataSetsResult dataSets = client.listDataSets(listDataSetsRequest);
 
-        for (DataSetEntry dataSet : result.getDataSets()) {
+        for (DataSetEntry dataSet : dataSets.getDataSets()) {
             System.out.printf("%s/%s: %s\n  %s\n",
                     dataSet.getOriginDetails().getProductId(),
                     dataSet.getId(),
