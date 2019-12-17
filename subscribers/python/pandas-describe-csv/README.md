@@ -1,37 +1,38 @@
 # Import CSV asset to pandas
-This example will import a CSV asset from Data Exchange into a pandas Data Frame object and describe() the result.
 
-Only tested on a CSV assets, not guaranteed to function on other formats.
+This example imports a CSV asset from Data Exchange into a pandas Data Frame object and `describe()` the result.
 
 ### Setup
-First, install the requirements (preferably in a virtual environment).
+
+Install the requirements, preferably in a virtual environment.
 
 ```bash
 $ pip install -r requirements.txt
 ```
 
-You'll need an IAM user set up with the following policies attached:
-* AmazonS3FullAccess
-* AWSDataExchangeFullAccess
-
-You'll need to set up some access keys for this User, and export them in your local environment:
+Set AWS access key and secret.
 
 ```
 $ export AWS_ACCESS_KEY_ID=<your-access-key-id>
 $ export AWS_SECRET_ACCESS_KEY=<your-secret-access-key>
 ```
 
-Finally, youll have to subscribe to a product on AWS Data Exchange and copy the arn for a CSV asset for this to work.
+The following policies are required for this AWS user.
+
+* AmazonS3FullAccess
+* AWSDataExchangeFullAccess
+
+Subscribe to a product on [AWS Data Exchange](https://aws.amazon.com/data-exchange), and note the Arn for the CSV asset you would like to test against.
+
 ### Execution
 
-This script will create a temporary S3 Bucket in your account to export the assets, and a temporary directory
-to stage the file locally.
+This script creates a temporary S3 Bucket in your account to export the assets, and a temporary directory to stage the file locally.
 
 ```bash
 $ ./pandas-describe-csv.py <asset-arn>
 ```
 
-Example output (using this [sample product](https://console.aws.amazon.com/dataexchange/home?region=us-east-1#/products/prodview-yfrvk7kf66aiy)).
+Sample output using [Rearc Tax Revenue (% of GDP) from World Bank Open Data](https://console.aws.amazon.com/dataexchange/home?region=us-east-1#/products/prodview-yfrvk7kf66aiy).
 
 ```
 $ ./pandas-describe-csv.py arn:aws:dataexchange:us-east-1::data-sets/5c8f9ac07883d81d8f25e2b9dd28efce/revisions/40c042c6b24286f1acf36b49e5748b36/assets/770435e0fd1aa970450b1b7c2e6a39f9 
