@@ -22,6 +22,7 @@ Examples of interacting with the AWS Data Exchange API from the data subscriber 
 ### JavaScript
 
 * [all-entitled-datasets](subscribers/javascript/all-entitled-datasets): Lists all data sets one is subscribed to.
+* [auto-export-to-s3](subscribers/javascript/auto-export-to-s3): Automatically exports newly published revisions to S3 using a CloudWatch Rule and Lambda Function.
 
 ### Go
 

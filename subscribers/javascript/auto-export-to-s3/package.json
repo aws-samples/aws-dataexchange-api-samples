@@ -1,0 +1,37 @@
+{
+  "name": "auto-export-to-s3",
+  "version": "1.0.0",
+  "description": "Auto export new AWS Data Exchange Assets to an Amazon S3 Bucket.",
+  "scripts": {
+    "clean": "rm -r cdk.out/ dist/",
+    "build": "tsc",
+    "packageDependencies": "cp package.json dist/lambda/ && cd dist/lambda/ && npm install --only=prod && cd ../.. && rm dist/lambda/package.json && rm dist/lambda/package-lock.json",
+    "deploy": "npm run-script build && npm run-script packageDependencies && cdk deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aws-samples/aws-dataexchange-api-samples.git"
+  },
+  "author": "Michael Melchione",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aws-samples/aws-dataexchange-api-samples/issues"
+  },
+  "homepage": "https://github.com/aws-samples/aws-dataexchange-api-samples#readme",
+  "devDependencies": {
+    "typescript": "^3.7.3",
+    "@types/node": "^12.12.21",
+    "@types/aws-lambda": "^8.10.3",
+    "@aws-cdk/aws-lambda": "^1.19.0",
+    "@aws-cdk/aws-events": "^1.19.0",
+    "@aws-cdk/aws-events-targets": "^1.19.0",
+    "@aws-cdk/aws-s3": "^1.19.0",
+    "@aws-cdk/aws-iam": "^1.19.0",
+    "@aws-cdk/core": "^1.19.0",
+    "@types/bunyan": "^1.8.4"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.592.0",
+    "bunyan": "^1.8.12"
+  }
+}
