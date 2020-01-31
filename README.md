@@ -44,6 +44,7 @@ Examples of interacting with the AWS Data Exchange API from the data provider si
 ### Ruby
 
 * [create-data-set-with-finalized-revision](providers/ruby/create-data-set-with-finalized-revision): Create a data set with a finalized revision.
+* [enumerate-data-products](providers/ruby/enumerate-data-products): Enumerate data products, examine each product's data sets, and fetch the data set.
 
 ## License
 
