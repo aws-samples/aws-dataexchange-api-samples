@@ -1,0 +1,5 @@
+source 'http://rubygems.org'
+
+gem 'aws-sdk-dataexchange'
+gem 'aws-sdk-marketplacecatalog'
+gem 'time_ago_in_words'

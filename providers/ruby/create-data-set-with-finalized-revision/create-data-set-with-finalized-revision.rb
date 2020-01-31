@@ -9,8 +9,8 @@ Aws.config.update({
   )
 })
 
-s3_bucket_name = 'bucket'
-s3_data_key = 'file.txt'
+s3_bucket_name = 'aws-samples-create-data-set-with-finalized-revision'
+s3_data_key = 'data.txt'
 
 dx = Aws::DataExchange::Client.new
 
@@ -89,6 +89,10 @@ puts "The revision #{revision.id} has #{finalized_revision.finalized ? 'been fin
 
 # cleanup
 
+puts "Cleaning up, deleting data set."
+
 dx.delete_data_set(
   data_set_id: data_set.id
 )
+
+puts "Done."
