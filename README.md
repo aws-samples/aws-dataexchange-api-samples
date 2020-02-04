@@ -45,6 +45,12 @@ Examples of interacting with the AWS Data Exchange API from the data provider si
 
 * [create-data-set-with-finalized-revision](providers/ruby/create-data-set-with-finalized-revision): Create a data set with a finalized revision.
 * [enumerate-data-products](providers/ruby/enumerate-data-products): Enumerate data products, examine each product's data sets, and fetch the data set.
+* [add-revision-to-a-data-set](providers/ruby/add-revision-to-a-data-set): Add a new revision to a data set using data in S3.
+
+## API References
+
+* [AWS Data Exchange API](https://docs.aws.amazon.com/data-exchange/latest/apireference/welcome.html)
+* [AWS Marketplace Catalog API](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html)
 
 ## License
 
