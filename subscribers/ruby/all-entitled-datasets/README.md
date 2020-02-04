@@ -2,7 +2,7 @@
 
 This sample retrieves a list of all subscriber's entitled data sets.
 
-To run the sample, set `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
+To run the sample, set `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_SESSION_TOKEN` and `AWS_REGION`.
 
 ```
 $ bundle exec ruby all-entitled-datasets.rb

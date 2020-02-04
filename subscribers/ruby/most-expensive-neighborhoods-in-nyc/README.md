@@ -4,7 +4,7 @@ This sample uses [New York City Property Sales (2014-2018)](https://console.aws.
 
 The code retrieves data sets between 2014 and 2018, enumerates data set revisions, exports latest CSV assets to S3, downloads the files to a local temporary location, imports the CSVs, calculates the median sale price in each neighborhood for all sales over $100,000, and displays the 10 most expensive neighborhoods.
 
-To run the sample, set `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`, subscribe to the product on AWS Data Exchange and replace the data set IDs and the S3 bucket name in the code.
+To run the sample, set `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_SESSION_TOKEN` and `AWS_REGION`, subscribe to the product on AWS Data Exchange and replace the data set IDs and the S3 bucket name in the code.
 
 ```
 $ bundle exec ruby most-expensive-neighborhoods-in-nyc.rb
