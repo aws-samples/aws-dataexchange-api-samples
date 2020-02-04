@@ -10,7 +10,7 @@ I18n.enforce_available_locales = false
 Money.locale_backend = :i18n
 
 Aws.config.update({
-  region: 'us-east-1',
+  region: ENV['AWS_REGION'] || 'us-east-1',
   credentials: Aws::Credentials.new(
     ENV['AWS_ACCESS_KEY_ID'], 
     ENV['AWS_SECRET_ACCESS_KEY'],
@@ -29,7 +29,7 @@ data_sets = {
   2018 => 'fc19d00c8780199e4fccd21f4834c905'
 }
 
-s3_bucket_name = 'aws-dataexchange-hello-world'
+s3_bucket_name = ENV['S3_BUCKET_NAME'] || raise('missing ENV["S3_BUCKET_NAME"]')
 
 dx = Aws::DataExchange::Client.new
 

@@ -9,8 +9,8 @@ Aws.config.update({
   )
 })
 
-s3_bucket_name = 'aws-samples-create-data-set-with-finalized-revision'
-s3_data_key = 'data.txt'
+s3_bucket_name = ENV['S3_BUCKET_NAME'] || raise("missing ENV['S3_BUCKET_NAME']")
+s3_data_key = ENV['S3_DATA_KEY'] || raise("missing ENV['S3_DATA_KEY']")
 
 dx = Aws::DataExchange::Client.new
 

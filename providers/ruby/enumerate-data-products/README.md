@@ -2,7 +2,7 @@
 
 This sample uses the [AWS Marketplace Catalog API](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html) to enumerate data products, examines each product's data sets, parses each data set's Arn and fetches the data set using the [AWS Data Exchange API](https://docs.aws.amazon.com/data-exchange/latest/apireference/welcome.html).
 
-To run the sample, set `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
+To run the sample, set `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_SESSION_TOKEN` and `AWS_REGION`.
 
 ```
 $ bundle exec ruby enumerate-data-products.rb 
