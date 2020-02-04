@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 require 'aws-sdk-dataexchange'
 require 'aws-sdk-marketplacecatalog'
 require 'time_ago_in_words'
 
-Aws.config.update({
+Aws.config.update(
   region: ENV['AWS_REGION'] || 'us-east-1',
   credentials: Aws::Credentials.new(
-    ENV['AWS_ACCESS_KEY_ID'], 
+    ENV['AWS_ACCESS_KEY_ID'],
     ENV['AWS_SECRET_ACCESS_KEY'],
     ENV['AWS_SESSION_TOKEN']
   )
-})
+)
 
 catalog_name = 'AWSMarketplace'
 entity_id = ENV['ENTITY_ID'] || raise("missing ENV['ENTITY_ID']")
@@ -72,6 +74,7 @@ loop do
   next if state == 'IN_PROGRESS' || state == 'WAITING'
   break if state == 'COMPLETED'
   raise job_in_progress.errors.join(&:to_s) if job_in_progress.state == 'ERROR'
+
   raise job_in_progress.state
 end
 
@@ -99,17 +102,17 @@ puts "The revision #{revision.id} has #{finalized_revision.finalized ? 'been fin
 start_change_set = catalog.start_change_set(
   catalog: 'AWSMarketplace',
   change_set_name: "Adding revision to #{data_set_name}.",
-  change_set:[
+  change_set: [
     {
       change_type: 'AddRevisions',
       entity: {
         identifier: described_entity.entity_identifier,
         type: described_entity.entity_type
       },
-      details: JSON.dump({
+      details: JSON.dump(
         'DataSetArn' => data_set_arn,
         'RevisionArns' => [finalized_revision.arn]
-      })
+      )
     }
   ]
 )
@@ -127,13 +130,16 @@ loop do
 
   describe_change_set_status = describe_change_set.status
   break if describe_change_set_status == 'SUCCEEDED'
-  raise "#{describe_change_set.failure_description}\n#{describe_change_set
-    .change_set.first.error_detail_list
-    .map(&:error_message).join}" if describe_change_set_status == 'FAILED'
+
+  if describe_change_set_status == 'FAILED'
+    raise "#{describe_change_set.failure_description}\n#{describe_change_set
+      .change_set.first.error_detail_list
+      .map(&:error_message).join}"
+  end
 
   STDOUT.write('.')
 end
 puts ' done.'
 
 puts "Change set #{chage_set_id} published."
-puts "Done."
+puts 'Done.'

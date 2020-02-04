@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 require 'aws-sdk-marketplacecatalog'
 require 'aws-sdk-dataexchange'
 require 'time_ago_in_words'
 
-Aws.config.update({
+Aws.config.update(
   region: ENV['AWS_REGION'] || 'us-east-1',
   credentials: Aws::Credentials.new(
-    ENV['AWS_ACCESS_KEY_ID'], 
+    ENV['AWS_ACCESS_KEY_ID'],
     ENV['AWS_SECRET_ACCESS_KEY'],
     ENV['AWS_SESSION_TOKEN']
   )
-})
+)
 
 catalog_name = 'AWSMarketplace'
 
@@ -18,10 +20,10 @@ dx = Aws::DataExchange::Client.new
 
 # data products, what you see in https://console.aws.amazon.com/dataexchange/home?region=us-east-1#/owned/products
 
-puts "Enumerating available data products ..."
+puts 'Enumerating available data products ...'
 
 entities = catalog.list_entities(
-  catalog: catalog_name, 
+  catalog: catalog_name,
   entity_type: 'DataProduct'
 ).entity_summary_list
 
@@ -42,4 +44,4 @@ entities.each do |entity|
   end
 end
 
-puts "Done."
+puts 'Done.'

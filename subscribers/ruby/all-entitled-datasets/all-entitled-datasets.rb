@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 require 'aws-sdk-dataexchange'
 
-Aws.config.update({
+Aws.config.update(
   region: ENV['AWS_REGION'] || 'us-east-1',
   credentials: Aws::Credentials.new(
-    ENV['AWS_ACCESS_KEY_ID'], 
+    ENV['AWS_ACCESS_KEY_ID'],
     ENV['AWS_SECRET_ACCESS_KEY'],
     ENV['AWS_SESSION_TOKEN']
   )
-})
+)
 
 dx = Aws::DataExchange::Client.new
 

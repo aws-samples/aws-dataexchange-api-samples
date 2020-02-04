@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 require 'aws-sdk-dataexchange'
 
-Aws.config.update({
+Aws.config.update(
   region: ENV['AWS_REGION'] || 'us-east-1',
   credentials: Aws::Credentials.new(
-    ENV['AWS_ACCESS_KEY_ID'], 
+    ENV['AWS_ACCESS_KEY_ID'],
     ENV['AWS_SECRET_ACCESS_KEY'],
     ENV['AWS_SESSION_TOKEN']
   )
-})
+)
 
 s3_bucket_name = ENV['S3_BUCKET_NAME'] || raise("missing ENV['S3_BUCKET_NAME']")
 s3_data_key = ENV['S3_DATA_KEY'] || raise("missing ENV['S3_DATA_KEY']")
@@ -65,6 +67,7 @@ loop do
   next if state == 'IN_PROGRESS' || state == 'WAITING'
   break if state == 'COMPLETED'
   raise job_in_progress.errors.join(&:to_s) if job_in_progress.state == 'ERROR'
+
   raise job_in_progress.state
 end
 
@@ -89,10 +92,10 @@ puts "The revision #{revision.id} has #{finalized_revision.finalized ? 'been fin
 
 # cleanup
 
-puts "Cleaning up, deleting data set."
+puts 'Cleaning up, deleting data set.'
 
 dx.delete_data_set(
   data_set_id: data_set.id
 )
 
-puts "Done."
+puts 'Done.'

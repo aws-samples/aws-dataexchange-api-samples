@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'aws-sdk-dataexchange'
 require 'aws-sdk-s3'
 require 'smarter_csv'
@@ -9,14 +11,14 @@ require 'monetize'
 I18n.enforce_available_locales = false
 Money.locale_backend = :i18n
 
-Aws.config.update({
+Aws.config.update(
   region: ENV['AWS_REGION'] || 'us-east-1',
   credentials: Aws::Credentials.new(
-    ENV['AWS_ACCESS_KEY_ID'], 
+    ENV['AWS_ACCESS_KEY_ID'],
     ENV['AWS_SECRET_ACCESS_KEY'],
     ENV['AWS_SESSION_TOKEN']
   )
-})
+)
 
 # data sets provided by Enigma
 # https://console.aws.amazon.com/dataexchange/home?region=us-east-1#/products/prodview-27ompcouk2o6i
@@ -35,7 +37,7 @@ dx = Aws::DataExchange::Client.new
 
 neighborhood_sale_prices = {}
 
-data_sets.each_pair do |year, data_set_id|
+data_sets.each_pair do |_year, data_set_id|
   data_set = dx.get_data_set(
     data_set_id: data_set_id
   )
@@ -56,7 +58,7 @@ data_sets.each_pair do |year, data_set_id|
     # fetch assets for this revision
 
     assets = dx.list_revision_assets(
-      data_set_id: data_set.id, 
+      data_set_id: data_set.id,
       revision_id: revision.id
     ).map(&:assets).flatten
 
@@ -81,7 +83,7 @@ data_sets.each_pair do |year, data_set_id|
         asset_destinations: [
           asset_id: latest_asset.id,
           bucket: s3_bucket_name,
-          key: "data/#{latest_asset.name}" 
+          key: "data/#{latest_asset.name}"
         ],
         data_set_id: latest_asset.data_set_id,
         revision_id: latest_asset.revision_id
@@ -98,7 +100,10 @@ data_sets.each_pair do |year, data_set_id|
     state = job_in_progress.state
     next if state == 'IN_PROGRESS' || state == 'WAITING'
     break if state == 'COMPLETED'
-    raise job_in_progress.errors.join(&:to_s) if job_in_progress.state == 'ERROR'
+    if job_in_progress.state == 'ERROR'
+      raise job_in_progress.errors.join(&:to_s)
+    end
+
     raise job_in_progress.state
   end
 
@@ -112,38 +117,38 @@ data_sets.each_pair do |year, data_set_id|
 
   Tempfile.create do |f|
     s3.get_object({
-      bucket: s3_bucket_name,
-      key: "data/#{latest_asset.name}",
-    }, target: f)
-
+                    bucket: s3_bucket_name,
+                    key: "data/#{latest_asset.name}"
+                  }, target: f)
 
     rows = 0
     SmarterCSV.process(f, row_sep: :auto, col_sep: ',', file_encoding: Encoding::UTF_8) do |coll|
       coll.each do |row|
         rows += 1
-        STDOUT.write('.') if rows % 10000 == 0
+        STDOUT.write('.') if rows % 10_000 == 0
         sale_price = Monetize.parse(row[:sale_price]).to_f
         next unless sale_price > 100_000
+
         neighborhood_sale_prices[row[:neighborhood]] ||= []
         neighborhood_sale_prices[row[:neighborhood]] << sale_price
       end
     end
-    
-    puts " done."
+
+    puts ' done.'
   end
 end
 
-puts "10 Most Expensive NYC Neighborhoods:"
+puts '10 Most Expensive NYC Neighborhoods:'
 
 neighborhood_median_sale_prices = Hash[neighborhood_sale_prices.map do |neighborhood, prices|
   [neighborhood, prices.median]
 end]
 
 neighborhood_median_sale_prices
-  .sort_by { |neighborhood, median_price| -median_price }
+  .sort_by { |_neighborhood, median_price| -median_price }
   .take(10)
   .each do |neighborhood_median_price_pair|
-    dollars = Money.new(neighborhood_median_price_pair[1] * 100, 'USD')
-      .format(thousands_separator: ',', drop_trailing_zeros: true)
-    puts "#{neighborhood_median_price_pair[0]}: #{dollars}"
+  dollars = Money.new(neighborhood_median_price_pair[1] * 100, 'USD')
+                 .format(thousands_separator: ',', drop_trailing_zeros: true)
+  puts "#{neighborhood_median_price_pair[0]}: #{dollars}"
 end
