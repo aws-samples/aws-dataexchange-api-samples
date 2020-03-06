@@ -37,6 +37,10 @@ Examples of interacting with the AWS Data Exchange API from the data subscriber 
 
 * [all-entitled-datasets](subscribers/dotnet/all-entitled-datasets): Lists all data sets one is subscribed to.
 
+### C++
+
+* [all-entitled-datasets](subscribers/cpp/all-entitled-datasets): Lists all data sets one is subscribed to.
+
 ## Provider Samples
 
 Examples of interacting with the AWS Data Exchange API from the data provider side can be found in [/providers](providers).
