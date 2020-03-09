@@ -1,20 +1,17 @@
-# All Entitled Data Sets (C++)
+# All Entitled Data Sets (PHP)
 
 This sample retrieves a list of all subscriber's entitled data sets.
 
-To build the sample, install the [AWS SDK for C++](https://github.com/aws/aws-sdk-cpp#building-the-sdk) and use [CMake](https://cmake.org/).
+To run the sample, install the [AWS SDK for PHP](https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/welcome.html) and install dependencies via [Composer](https://getcomposer.org/doc/00-intro.md).
 
 ```
-cpp/all-entitled-datasets $ mkdir build
-cpp/all-entitled-datasets $ cd build
-cpp/all-entitled-datasets/build $ cmake ..
-cpp/all-entitled-datasets/build $ make
+$ composer install
 ```
 
 To run the sample, set `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_SESSION_TOKEN` and `AWS_REGION`.
 
 ```
-$ ./all-entitled-datasets
+$ php all-entitled-datasets.php
 
 prod-zg4u6tpyxud5i/7ae12084f47ea658ab62ee90edd513dd: NYC Property Sales 2014
   Over 80,000 property sales in New York City in 2014
