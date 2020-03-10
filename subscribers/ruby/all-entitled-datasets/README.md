@@ -1,4 +1,4 @@
-# All Entitled Data Sets
+# All Entitled Data Sets (Ruby)
 
 This sample retrieves a list of all subscriber's entitled data sets.
 
