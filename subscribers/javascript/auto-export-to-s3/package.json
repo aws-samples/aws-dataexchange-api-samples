@@ -22,16 +22,16 @@
     "typescript": "^3.7.3",
     "@types/node": "^12.12.21",
     "@types/aws-lambda": "^8.10.3",
-    "@aws-cdk/aws-lambda": "^1.19.0",
-    "@aws-cdk/aws-events": "^1.19.0",
-    "@aws-cdk/aws-events-targets": "^1.19.0",
-    "@aws-cdk/aws-s3": "^1.19.0",
-    "@aws-cdk/aws-iam": "^1.19.0",
-    "@aws-cdk/core": "^1.19.0",
+    "@aws-cdk/aws-lambda": "^1.46.0",
+    "@aws-cdk/aws-events": "^1.46.0",
+    "@aws-cdk/aws-events-targets": "^1.46.0",
+    "@aws-cdk/aws-s3": "^1.46.0",
+    "@aws-cdk/aws-iam": "^1.46.0",
+    "@aws-cdk/core": "^1.46.0",
     "@types/bunyan": "^1.8.4"
   },
   "dependencies": {
-    "aws-sdk": "^2.592.0",
+    "aws-sdk": "^2.704.0",
     "bunyan": "^1.8.12"
   }
 }
