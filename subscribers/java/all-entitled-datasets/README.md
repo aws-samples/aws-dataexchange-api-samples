@@ -5,7 +5,8 @@ This sample retrieves a list of all subscriber's entitled data sets, in Java.
 To run the sample, install Maven, set `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
 
 ```
-$ mvn exec:java -Dexec.mainClass="com.amazon.aws.dataexchange.App"
+$ mvn compile
+$ mvn exec:java -Dexec.mainClass="com.amazonaws.dataexchange.App"
 
 prod-zg4u6tpyxud5i/7ae12084f47ea658ab62ee90edd513dd: NYC Property Sales 2014
   Over 80,000 property sales in New York City in 2014
@@ -26,7 +27,7 @@ The project was generated with [Maven](https://maven.apache.org/guides/getting-s
 ```
 $ mvn -B archetype:generate \
     -DarchetypeGroupId=org.apache.maven.archetypes \
-    -DgroupId=com.amazon.aws.dataexchange \
+    -DgroupId=com.amazonaws.dataexchange \
     -DartifactId=all-entitled-datasets
 ```
 
@@ -67,5 +68,6 @@ Upgraded compiler source and target to 1.8 in [pom.xml](pom.xml).
 Compile and run.
 
 ```
-$ mvn exec:java -Dexec.mainClass="com.amazon.aws.dataexchange.App"
+$ mvn compile
+$ mvn exec:java -Dexec.mainClass="com.amazonaws.dataexchange.App"
 ```
