@@ -56,6 +56,11 @@ Examples of interacting with the AWS Data Exchange API from the data provider si
 * [add-data-set](providers/ruby/add-data-set): Create and publish a data set into an existing product.
 * [add-revision-to-a-data-set](providers/ruby/add-revision-to-a-data-set): Add a new revision to a data set using data in S3.
 
+## Other Samples
+
+* [awslabs/aws-data-exchange-publisher-coordinator](https://github.com/awslabs/aws-data-exchange-publisher-coordinator): Coordinate the publishing steps for a dataset revision based on an S3 manifest file being uploaded to the specified S3 bucket.
+* [awslabs/aws-data-exchange-subscriber-coordinator](https://github.com/awslabs/aws-data-exchange-subscriber-coordinator): Coordinate subscription steps to receive a dataset revision into S3 from AWS Data Exchange when the publisher publishes a new revision.
+
 ## API References
 
 * [AWS Data Exchange API](https://docs.aws.amazon.com/data-exchange/latest/apireference/welcome.html)
