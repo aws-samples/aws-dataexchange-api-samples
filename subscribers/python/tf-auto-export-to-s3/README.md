@@ -1,9 +1,9 @@
 # Auto Export To S3 (Python)
 
-This sample shows how to set up an AWS Lambda function which will automatically export all newly published revisions for a given Data Set to S3. All infrastructure is setup using Terraform.
+This sample shows how to set up an AWS Lambda function which will automatically export all newly published revisions for a given DataSet to S3. All infrastructure is setup using Terraform.
 
 Logical Prerequisites:
-* Data Set ID for an active subscription to a Data Set on AWS Data Exchange
+* DataSet ID for an active subscription to a DataSet on AWS Data Exchange
 * Revision ID for the target first revision to export
 
 Technical Prerequisites:
@@ -16,7 +16,7 @@ section of the terraform template to modify these defaults.
 **Please note that this sample is provided for demonstration and learning purposes only, and should be reviewed for alignment with organisational policies and best practices before any production use.**
 
 
-### First Time Terraform Deployment
+### First Time Terraform Initiation
 
 ```
 $ terraform init
@@ -24,9 +24,13 @@ $ terraform init
 
 ### Build and Deploy
 ```
+$ chmod 700 build.sh
+$ ./build.sh
 $ terraform plan
 $ terraform apply
 ```
+
+build.sh zips the index.py into a lambda_code.zip archive ready for upload.
 
 Terraform will create the following resources:
 
