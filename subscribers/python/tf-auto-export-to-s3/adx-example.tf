@@ -20,7 +20,7 @@ provider "aws" {
 # Require dataset ID and initial revision ID to be input before the deployment can take place (the dataset must be subscribed to manually in the AWS Console)
 variable "datasetID" {
   type = string
-  description = "REQUIRED: the ID for the data set"
+  description = "REQUIRED: the ID for the DataSet"
 }
 
 variable "revisionID" {
@@ -58,7 +58,7 @@ resource "aws_lambda_function" "FunctionGetNewRevision" {
   timeout = 180
 }
 
-# Create new EventBridge rule to trigger on the Revision Published To Data Set event
+# Create new EventBridge rule to trigger on the Revision Published To DataSet event
 resource "aws_cloudwatch_event_rule" "NewRevisionEventRule" {
   name = "NewRevisionEventRule"
   description = "New Revision Event"
