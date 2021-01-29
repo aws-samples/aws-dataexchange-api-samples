@@ -3,12 +3,12 @@
 This sample shows how to set up an AWS Lambda function which will automatically export all newly published revisions for a given DataSet to S3. All infrastructure is setup using Terraform.
 
 Logical Prerequisites:
-* DataSet ID for an active subscription to a DataSet on AWS Data Exchange
-* Revision ID for the target first revision to export
+* DataSet ID for an active subscription to a DataSet on AWS Data Exchange.
+* Revision ID for the target first revision to export.
 
 Technical Prerequisites:
-* Terraform is installed
-* AWS CLI is installed and has a profile configured with access to create IAM, S3, and Lambda resources and issue permissions to CloudWatch, S3, and DataExchange
+* Terraform is installed.
+* AWS CLI is installed and has a profile configured with access to create IAM, S3, and Lambda resources and issue permissions to CloudWatch, S3, and DataExchange.
 
 > The deployment will target us-east-1 and use the "default" AWS CLI profile by default.  Update the "profile" and "region" configuration in the "provider"
 section of the terraform template to modify these defaults.
