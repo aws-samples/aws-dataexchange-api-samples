@@ -1,6 +1,6 @@
 import { Context, Callback, Handler, ScheduledEvent } from 'aws-lambda';
 import { DataExchange } from 'aws-sdk';
-import * as Logger from 'bunyan';
+import Logger from 'bunyan';
 
 // https://aws.amazon.com/blogs/big-data/find-and-acquire-new-data-sets-and-retrieve-new-updates-automatically-using-aws-data-exchange/
 interface IDataExchangeDetailType {
@@ -22,42 +22,28 @@ export const handler: Handler<ScheduledEvent> = async function (event: Scheduled
   // The Resources block contains a single entry which is the DataSetId which contains the RevisionIds.
   const dataSetId = event.resources[0];
 
-  // For each new Revision, list and export all Assets to S3.
+  // Export each new Revision to S3.
   for (const revisionId of (event.detail as IDataExchangeDetailType).RevisionIds) {
-    let nextToken;
-
-    do {
-      const assetsInRevision = await dataExchangeClient.listRevisionAssets({
-        DataSetId: dataSetId,
-        RevisionId: revisionId,
-        NextToken: nextToken,
-        MaxResults: 100 // Jobs can currently only import 100 Assets at a time.
-      }).promise();
-
-      if (assetsInRevision.Assets.length < 1) {
-        break;
-      }
-  
-      const job = await dataExchangeClient.createJob({
-        Type: 'EXPORT_ASSETS_TO_S3',
-        Details: {
-          ExportAssetsToS3: {
-            DataSetId: dataSetId,
-            RevisionId: revisionId,
-            AssetDestinations: assetsInRevision.Assets.map((asset: DataExchange.AssetEntry) => ({
-              AssetId: asset.Id,
+    const job = await dataExchangeClient.createJob({
+      Type: 'EXPORT_REVISIONS_TO_S3',
+      Details: {
+        ExportRevisionsToS3: {
+          DataSetId: dataSetId,
+          RevisionDestinations: [
+            {
+              RevisionId: revisionId,
               Bucket: s3Bucket,
-              Key: `${dataSetId}/${revisionId}/${asset.Name}`
-            }))
-          }
+              KeyPattern: `${dataSetId}/\${Revision.Id}/\${Asset.Name}`
+            }
+          ]
         }
-      }).promise();
+      }
+    }).promise();
 
-      await dataExchangeClient.startJob({ JobId: job.Id }).promise();
+    await dataExchangeClient.startJob({ JobId: job.Id }).promise();
 
-      const completedJob = await waitForJobCompletion(job.Id, dataExchangeClient);
-      logger.info({ completedJob });
-    } while (nextToken !== undefined);
+    const completedJob = await waitForJobCompletion(job.Id, dataExchangeClient);
+    logger.info({ completedJob });
   }
 };
 
@@ -77,6 +63,6 @@ async function waitForJobCompletion(jobId: string, dataExchangeClient: DataExcha
   return job;
 }
 
-function sleep(ms) {
+function sleep(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
 }

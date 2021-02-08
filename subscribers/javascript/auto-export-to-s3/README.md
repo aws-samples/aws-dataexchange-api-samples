@@ -23,4 +23,4 @@ The CloudFormation will create the following resources:
 1. Lambda Function (with necessary IAM permissions)
 1. CloudWatch Rule
 
-Each time a new Revision is added to a DataSet to which your account is subscribed, the Assets will be automatically exported to S3 as a response to the CloudWatch Event sent by AWS Data Exchange.
+Each time a new Revision is published to a Data Set to which your account is subscribed, the new Revision(s) will be automatically exported to S3 as a response to the Amazon EventBridge Event sent by AWS Data Exchange.
