@@ -44,28 +44,27 @@ def handler(event, context):
     # Used to store the Ids of the Jobs exporting the assets to S3.
     job_ids = set()
     
+    # Create an ExportRevisionToS3 Job for each Revision ID
     for revision_id in revision_ids:
-        # Start Jobs to export all the assets to S3.
-        # We export in batches of 100 as the StartJob API has a limit of 100.
-        revision_assets = dataexchange.list_revision_assets(DataSetId=data_set_id, RevisionId=revision_id)
-        assets_chunks = grouper(revision_assets['Assets'], 100)
-        for assets_chunk in assets_chunks:
-            # Create the Job which exports assets to S3.
-            export_job = dataexchange.create_job(
-                Type='EXPORT_ASSETS_TO_S3',
-                Details={
-                    'ExportAssetsToS3': {
-                        'DataSetId': data_set_id,
-                        'RevisionId': revision_id,
-                        'AssetDestinations': [
-                            { 'AssetId': asset['Id'], 'Bucket': destination_bucket } for asset in assets_chunk
-                        ]
-                    }
-                }    
-            )
-            # Start the Job and save the JobId.
-            dataexchange.start_job(JobId=export_job['Id'])
-            job_ids.add(export_job['Id'])
+
+        export_job = dataexchange.create_job(
+            Type='EXPORT_REVISIONS_TO_S3',
+            Details={
+                'ExportRevisionsToS3': {
+                    'DataSetId': data_set_id,
+                    'RevisionDestinations': [
+                        { 
+                            'Bucket': destination_bucket, 
+                            'KeyPattern': data_set_id+'/${Revision.Id}/${Asset.Name}',
+                            'RevisionId': revision_id
+                        }
+                    ]
+                }
+            }    
+        )
+        # Start the Job and save the JobId.
+        dataexchange.start_job(JobId=export_job['Id'])
+        job_ids.add(export_job['Id'])
     
     # Iterate until all remaining workflow have reached a terminal state, or an error is found.
     completed_jobs = set()
