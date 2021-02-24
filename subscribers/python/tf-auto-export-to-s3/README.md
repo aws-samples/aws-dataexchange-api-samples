@@ -36,6 +36,7 @@ Terraform will create the following resources:
 
 1. S3 Bucket to store exported Data Exchange assets (files)
 1. Lambda Function to perform the export (with necessary IAM permissions)
+1. Lambda Layer providing the Boto3 v1.17 libraries
 1. EventBridge (CloudWatch Events) Rule to trigger Lambda
 
 Each time a new Revision is added to the DataSet you provide on deployment, the Assets will be automatically exported to S3 as a response to the CloudWatch Event sent by AWS Data Exchange.

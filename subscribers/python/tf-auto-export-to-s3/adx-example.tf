@@ -20,7 +20,7 @@ provider "aws" {
 # Require dataset ID and initial revision ID to be input before the deployment can take place (the dataset must be subscribed to manually in the AWS Console)
 variable "datasetID" {
   type = string
-  description = "REQUIRED: the ID for the DataSet"
+  description = "REQUIRED: the ID for the data set"
 }
 
 variable "revisionID" {
@@ -56,9 +56,19 @@ resource "aws_lambda_function" "FunctionGetNewRevision" {
   role = aws_iam_role.RoleGetNewRevision.arn
   runtime = "python3.7"
   timeout = 180
+  layers = [aws_lambda_layer_version.Boto3LibLayer.arn]
 }
 
-# Create new EventBridge rule to trigger on the Revision Published To DataSet event
+# Create Lambda Layer to provide Boto3 libraries required for certain ADX functionality
+resource "aws_lambda_layer_version" "Boto3LibLayer" {
+  filename = "Boto3LibLayer.zip"
+  layer_name = "Boto3LibLayer"
+  description = "Provides Boto3 (v1.17) as a Lambda Layer to support the latest AWS SDK capabilities"
+  source_code_hash = filebase64sha256("Boto3LibLayer.zip")
+  compatible_runtimes = [ "python3.7" ]
+}
+
+# Create new EventBridge rule to trigger on the Revision Published To Data Set event
 resource "aws_cloudwatch_event_rule" "NewRevisionEventRule" {
   name = "NewRevisionEventRule"
   description = "New Revision Event"
@@ -107,7 +117,8 @@ resource "aws_iam_role_policy" "RoleGetNewRevisionPolicy" {
           "dataexchange:CreateJob",
           "dataexchange:GetJob",
           "dataexchange:ListRevisionAssets",
-          "dataexchange:GetAsset"
+          "dataexchange:GetAsset",
+          "dataexchange:GetRevision"
         ]
         Resource = "*"
       },
