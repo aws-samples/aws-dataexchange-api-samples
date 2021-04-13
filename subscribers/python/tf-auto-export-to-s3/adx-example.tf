@@ -56,6 +56,16 @@ resource "aws_lambda_function" "FunctionGetNewRevision" {
   role = aws_iam_role.RoleGetNewRevision.arn
   runtime = "python3.7"
   timeout = 180
+  layers = [aws_lambda_layer_version.Boto3LibLayer.arn]
+}
+
+# Create Lambda Layer to provide Boto3 libraries required for certain ADX functionality
+resource "aws_lambda_layer_version" "Boto3LibLayer" {
+  filename = "Boto3LibLayer.zip"
+  layer_name = "Boto3LibLayer"
+  description = "Provides Boto3 (v1.17) as a Lambda Layer to support the latest AWS SDK capabilities"
+  source_code_hash = filebase64sha256("Boto3LibLayer.zip")
+  compatible_runtimes = [ "python3.7" ]
 }
 
 # Create new EventBridge rule to trigger on the Revision Published To DataSet event
@@ -107,7 +117,8 @@ resource "aws_iam_role_policy" "RoleGetNewRevisionPolicy" {
           "dataexchange:CreateJob",
           "dataexchange:GetJob",
           "dataexchange:ListRevisionAssets",
-          "dataexchange:GetAsset"
+          "dataexchange:GetAsset",
+          "dataexchange:GetRevision"
         ]
         Resource = "*"
       },
