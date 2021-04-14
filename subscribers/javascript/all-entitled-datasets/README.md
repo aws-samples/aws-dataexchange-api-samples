@@ -1,6 +1,6 @@
 # All Entitled Data Sets (JavaScript)
 
-This sample retrieves a list of all subscriber's entitled data sets, in JavaScript.
+This sample retrieves a list of all subscriber's entitled data sets, in JavaScript, using AWS SDK v3.
 
 To run the sample, set `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and optionally `AWS_SESSION_TOKEN`.
 
