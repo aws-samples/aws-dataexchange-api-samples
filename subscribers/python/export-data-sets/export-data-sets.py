@@ -17,7 +17,7 @@ def get_revisions(data_set_id):
     
     #Paginate and extract all revisions corresponding to the data-set specified.
     revisions = []
-    print('Extracting revision-ids for data set',data_set_id)
+    #print('Extracting revision-ids for data set',data_set_id)
     try:
         res = dx.list_data_set_revisions(DataSetId=data_set_id)
         next_token = res.get('NextToken')
