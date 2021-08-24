@@ -7,6 +7,7 @@ import time
 import click
 import uuid
 import json
+import botocore
 
 dx = boto3.client('dataexchange')
 s3 = boto3.client('s3')
@@ -16,15 +17,19 @@ def get_revisions(data_set_id):
     
     #Paginate and extract all revisions corresponding to the data-set specified.
     revisions = []
-    res = dx.list_data_set_revisions(DataSetId=data_set_id)
-    next_token = res.get('NextToken')
-    revisions += res.get('Revisions')
-    while next_token:
-        res = dx.list_data_set_revisions(DataSetId=data_set_id,
-                                         NextToken=next_token)
-        revisions += res.get('Revisions')
+    print('Extracting revision-ids for dataset',data_set_id)
+    try:
+        res = dx.list_data_set_revisions(DataSetId=data_set_id)
         next_token = res.get('NextToken')
-
+        revisions += res.get('Revisions')
+        while next_token:
+            res = dx.list_data_set_revisions(DataSetId=data_set_id,
+                                             NextToken=next_token)
+            revisions += res.get('Revisions')
+            next_token = res.get('NextToken')
+    except dx.exceptions.ResourceNotFoundException as error:
+        print('The data-set does not belong to region specified.')
+        exit()
     return revisions
 
 
@@ -40,7 +45,7 @@ def export_revisions(data_set_id,revisions,bucket):
                     Details={
                         'ExportRevisionsToS3': {
                             "DataSetId": data_set_id,
-                            'RevisionDestinations':[ {"RevisionId": revision['Id'], "Bucket": bucket, "KeyPattern": "${Asset.Name}" }]
+                            'RevisionDestinations':[ {"RevisionId": revision['Id'], "Bucket": bucket, "KeyPattern": "${Revision.Id}/${Asset.Name}" }]
                     }},Type='EXPORT_REVISIONS_TO_S3'
             )
 
@@ -84,16 +89,24 @@ def main(bucket,data_set_ids,region):
         print("No region provided")
     else:
         #Override region for connections.
-        
+        location = s3.get_bucket_location(Bucket='adx-data-kochava')['LocationConstraint']
+        if location != region:
+            print ('Dataset region does not match bucket\'s region. Cross region exports incur additional charges and cross-region exports over 100GB might fail.')
+            if input('Do You Want To Continue? (y/n) ') != 'y':
+                print('Cancelling export.')
+                exit()
+
         dx = boto3.client('dataexchange', region_name=region)
         s3 = boto3.client('s3',region_name=region)
         
         #loop through data_set_ids and extract
         for data_set_id in data_set_ids.split(","):
-            print("Extracting revisions for Data set ### {} ###".format(data_set_id))
             revisions = get_revisions(data_set_id)
+            print("Initiating export for Data set ### {} ###".format(data_set_id))
             export_revisions(data_set_id,revisions,bucket)
-    print("Export complete.")
+            print("Export for  Data set ### {} ### is complete".format(data_set_id))
+        print("Export complete.")
+
           
 if __name__ == '__main__':
     main()
