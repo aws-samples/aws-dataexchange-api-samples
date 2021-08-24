@@ -89,15 +89,18 @@ def main(bucket,data_set_ids,region):
         print("No region provided")
     else:
         #Override region for connections.
-        location = s3.get_bucket_location(Bucket='adx-data-kochava')['LocationConstraint']
-        if location != region:
+        dx = boto3.client('dataexchange', region_name=region)
+        s3 = boto3.client('s3', region_name=region)
+        print(s3.get_bucket_location(Bucket=bucket))
+        location = s3.get_bucket_location(Bucket=bucket)['LocationConstraint']
+        if location == None:
+            location='us-east-1'
+
+        if region != location.replace("'",""):
             print ('Data set region does not match bucket\'s region. Cross region exports incur additional charges and cross-region exports over 100GB might fail.')
             if input('Do You Want To Continue? (y/n) ') != 'y':
                 print('Cancelling export.')
                 exit()
-
-        dx = boto3.client('dataexchange', region_name=region)
-        s3 = boto3.client('s3',region_name=region)
         
         #loop through data_set_ids and extract
         for data_set_id in data_set_ids.split(","):
