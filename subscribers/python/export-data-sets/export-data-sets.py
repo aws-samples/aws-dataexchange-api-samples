@@ -34,7 +34,7 @@ def get_revisions(data_set_id):
 
 
 #This function exports assets corresponding to revisions specified into an S3 bucket
-def export_revisions(data_set_id,revisions,bucket):
+def export_revisions(data_set_id,revisions,bucket,key_pattern):
     
     for i in range(0, len(revisions), 5):
         job_ids=[]
@@ -45,7 +45,7 @@ def export_revisions(data_set_id,revisions,bucket):
                     Details={
                         'ExportRevisionsToS3': {
                             "DataSetId": data_set_id,
-                            'RevisionDestinations':[ {"RevisionId": revision['Id'], "Bucket": bucket, "KeyPattern": "${Revision.Id}/${Asset.Name}" }]
+                            'RevisionDestinations':[ {"RevisionId": revision['Id'], "Bucket": bucket, "KeyPattern": key_pattern}]
                     }},Type='EXPORT_REVISIONS_TO_S3'
             )
 
@@ -74,12 +74,13 @@ def export_revisions(data_set_id,revisions,bucket):
         time.sleep(15)
 
 
-# This function accepts data_set-ids and region and exports the data into specified S3 bucket. The region of the S3 bucket and data_set must be same.
+# This function accepts data_set-ids, region and an optional key-pattern and then exports the data into specified S3 bucket. The region of the S3 bucket and data_set must be same. 
 @click.command()
 @click.option('--bucket', '-s')
 @click.option('--data-set-ids', '-s')
 @click.option('--region', '-s')
-def main(bucket,data_set_ids,region):
+@click.option('--key-pattern', '-s')
+def main(bucket,data_set_ids,region,key_pattern):
     global dx,s3
     if not bucket:
         print("No s3 bucket provided")
@@ -89,6 +90,8 @@ def main(bucket,data_set_ids,region):
         print("No region provided")
     else:
         #Override region for connections.
+        if not key_pattern:
+            key_pattern= "${Revision.Id}/${Asset.Name}" 
         dx = boto3.client('dataexchange', region_name=region)
         s3 = boto3.client('s3', region_name=region)
         print(s3.get_bucket_location(Bucket=bucket))
@@ -106,7 +109,7 @@ def main(bucket,data_set_ids,region):
         for data_set_id in data_set_ids.split(","):
             revisions = get_revisions(data_set_id)
             print("Initiating export for data set {} ".format(data_set_id))
-            export_revisions(data_set_id,revisions,bucket)
+            export_revisions(data_set_id,revisions,bucket,key_pattern)
             print("Export for data set {} is complete".format(data_set_id))
         print("Export complete.")
 
