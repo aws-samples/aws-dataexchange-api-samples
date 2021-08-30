@@ -24,7 +24,9 @@ The following policies are required for this AWS user.
 
 ### Execution
 
-You can run following command to execute the script. Note that bucket,region, and data-set-ids are mandatory parameters and region specified must match region data-sets and bucket are hosted in.
+You can run following command to execute the script. Note that bucket,region, and data-set-ids are mandatory parameters and region specified must match region data-sets and bucket are hosted in. If key-pattern is not specified, it defaults to the pattern of *${Revision.Id}/${Asset.Name}*.
 
 ```bash
-$ ./export-data-sets.py --bucket 'bucket-name' --data-set-ids 'comma-separated-data-set-id(s)' --region 'region-name'```
+$ ./export-data-sets.py --bucket 'bucket-name' --data-set-ids 'comma-separated-data-set-id(s)' --region 'region-name' --key-pattern 'key-pattern' ```
+
+Note - If the script fails, please check whether dataset and bucket are hosted in same region.
