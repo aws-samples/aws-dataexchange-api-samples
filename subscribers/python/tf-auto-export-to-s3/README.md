@@ -1,4 +1,6 @@
-# Auto Export To S3 (Python)
+# [Deprecated] Auto Export To S3 (Python)
+
+> This sample is deprecated in favor of using the official AWS Data Exchange feature for auto exporting S3 revisions: https://aws.amazon.com/about-aws/whats-new/2021/09/aws-data-exchange-export-third-party-data-updates/
 
 This sample shows how to set up an AWS Lambda function which will automatically export all newly published revisions for a given DataSet to S3. All infrastructure is setup using Terraform.
 

@@ -1,4 +1,6 @@
-# Auto Export To S3 (JavaScript)
+# [Deprecated] Auto Export To S3 (JavaScript)
+
+> This sample is deprecated in favor of using the official AWS Data Exchange feature for auto exporting S3 revisions: https://aws.amazon.com/about-aws/whats-new/2021/09/aws-data-exchange-export-third-party-data-updates/
 
 This sample shows how to set up an AWS Lambda function which will automatically export all newly published revisions to S3. All infrastructure is setup using the [AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/home.html).
 

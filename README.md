@@ -33,6 +33,7 @@ Examples of interacting with the AWS Data Exchange API from the data subscriber 
 * [download-entitled-assets](subscribers/python/download-entitled-assets): Download all assets to which you've subscribed.
 * [pandas-describe-csv](subscribers/python/pandas-describe-csv): Download a CSV asset by Arn, import it into a Pandas data frame, and `describe()` the result.
 * [auto-export-to-s3](subscribers/python/tf-auto-export-to-s3): Terraform based deployment to automatically export newly published revisions to S3 using a CloudWatch Rule and Lambda.
+* [setup-redshift-data-shares](subscribers/python/setup-redshift-data-shares): Sets up AWS Data Exchange datashares for querying in Amazon Redshift.
 
 ### DotNet
 
