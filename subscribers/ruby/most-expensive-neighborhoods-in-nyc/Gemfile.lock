@@ -23,7 +23,7 @@ GEM
     concurrent-ruby (1.1.5)
     i18n (1.7.0)
       concurrent-ruby (~> 1.0)
-    jmespath (1.4.0)
+    jmespath (1.6.1)
     monetize (1.9.2)
       money (~> 6.12)
     money (6.13.4)
