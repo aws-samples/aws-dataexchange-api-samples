@@ -1,13 +1,16 @@
 # README
 
-This code is provided as a sample of how to use the AWS Data Exchange Client Software Development Kit (SDK) to connect to Data Exchange For APIs based Data Sets.  This will typically consist of three main stages:
+This sample code will show you how to integrate with the [AWS Data Exchange for APIs (Test Product)][APITestProduct]. This simple test product echoes the request sent to it, so you can try out different HTTP Methods (GET, POST, etc.), Query String Parameters, Headers, and Body content as you explore API based data consumption.  By the end of this exercise you'll know how to use the [AWS Data Exchange Client Software Development Kit (SDK)][Tools] with [JavaScript / Node.JS][JavaScript] to make a `SendApiAsset` request to an API based AWS Data Exchange product.  
+
+This will typically consist of three main stages:
 1. Import relevant SDK Clients and Interfaces, establish base Client configuration, and instantiate the Client. \
 _(This stage will remain consistent across all potential AWS Data Exchange for APIs use cases)_
 2. Define the relevant Provider / Product specific identities) \
 _(This stage will remain consistent across all uses of a given Product)_
 3. Define the request-specific parameters based on your business need. \
 _(This stage will likely change for every request)_
-Both TypeScript and native JavaScript examples are provided.  The instructions below assume working with the JavaScript file, but the same will work with the TypeScript file subject to it being transpiled after updates as normal.
+
+Both TypeScript and native JavaScript examples are provided in this sample.  The instructions below assume working with the JavaScript file, but the same will work with the TypeScript file subject to it being transpiled after updates as normal.
 
 ## Getting Started
 To get started, sign in to the AWS Management Console, browse to AWS Data Exchange, search for the ["AWS Data Exchange for APIs (Test product)"][APITestProduct] Product, and subscribe.
@@ -30,6 +33,8 @@ aws dataexchange send-api-asset \
 By default, this code will authenticate against AWS Data Exchange using the configuration of the environment in which it runs. For local development purposes, this will typically use credentials provided to the AWS CLI by [`aws configure`][AWSConfigure]. When running on Amazon EC2 it will typically use the [EC2 Instance Profile][IAMRolesForEC2], and for AWS Lambda it will use the [Lambda Execution Role][LambdaExecutionRole].
 
 [APITestProduct]: https://us-east-1.console.aws.amazon.com/dataexchange/home?region=us-east-1#/products/prodview-pgkxrurxwmp76
+[Tools]: https://aws.amazon.com/tools/
+[JavaScript]: https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dataexchange/index.html
 [IAMRolesForEC2]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html
 [LambdaExecutionRole]: https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html
 [AWSConfigure]: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html

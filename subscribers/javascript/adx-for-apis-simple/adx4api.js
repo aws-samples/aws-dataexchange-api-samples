@@ -2,8 +2,12 @@
 /*
 Please see the README.md on the GitHub AWS Data Exchange Samples repository for a more detailed overview with links to relevant AWS documentation.
 
-This code is provided as a sample of how to use the AWS Data Exchange Client Software Development Kit (SDK) to connect to Data Exchange For APIs
-based Data Sets.  This will typically consist of three main stages:
+This sample code will show you how to integrate with the [AWS Data Exchange for APIs (Test Product)][APITestProduct]. This simple test product 
+echoes the request sent to it, so you can try out different HTTP Methods (GET, POST, etc.), Query String Parameters, Headers, and Body content 
+as you explore API based data consumption.  By the end of this exercise you'll know how to use the [AWS Data Exchange Client Software Development 
+Kit (SDK)][Tools] with [JavaScript / Node.JS][JavaScript] to make a `SendApiAsset` request to an API based AWS Data Exchange product.  
+
+This will typically consist of three main stages:
 1. Import relevant SDK Clients and Interfaces, establish base Client configuration, and instantiate the Client.
     (This stage will remain consistent across all potential AWS Data Exchange for APIs use cases)
 2. Define the relevant Provider / Product specific identities)
