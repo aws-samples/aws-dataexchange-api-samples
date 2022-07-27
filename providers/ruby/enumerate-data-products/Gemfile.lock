@@ -16,7 +16,7 @@ GEM
       aws-sigv4 (~> 1.1)
     aws-sigv4 (1.1.0)
       aws-eventstream (~> 1.0, >= 1.0.2)
-    jmespath (1.4.0)
+    jmespath (1.6.1)
     time_ago_in_words (0.1.1)
 
 PLATFORMS
