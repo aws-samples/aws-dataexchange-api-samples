@@ -95,12 +95,16 @@ async function makeAdxForApiSubscriberCall (sendApiAssetCommandInput: SendApiAss
     //Send command using DataExchangeClient
     try {
         const sendApiAssetCommandOutput: SendApiAssetCommandOutput = await dataExchangeClient.send(sendApiAssetCommand);
-    } catch (err) {
+        console.log("Output");
+        console.log(sendApiAssetCommand);
+        } catch (err) {
         //Log errors
-        console.log("Error")
+        console.error("Error")
         console.error(err);
     }
 }
 
 //Invoke function to make ADX for APIs Subscriber Call
-makeAdxForApiSubscriberCall(sendApiAssetCommandInput);
+(async () => {
+    await makeAdxForApiSubscriberCall(sendApiAssetCommandInput);
+})();
