@@ -1,6 +1,6 @@
 # README
 
-This sample code will show you how to integrate with the [AWS Data Exchange for APIs (Test Product)][APITestProduct]. This simple test product echoes the request sent to it, so you can try out different HTTP Methods (GET, POST, etc.), Query String Parameters, Headers, and Body content as you explore API based data consumption.  By the end of this exercise you'll know how to use the [AWS Data Exchange Client Software Development Kit (SDK)][Tools] with [JavaScript / Node.JS][JavaScript] to make a `SendApiAsset` request to an API based AWS Data Exchange product.  
+This sample code will show you how to integrate with the [AWS Data Exchange for APIs (Test Product)][APITestProduct]. This simple test product echoes the request sent to it, so you can try out different HTTP Methods (GET, POST, etc.), Query String Parameters, Headers, and Body content as you explore API based data consumption.  By the end of this exercise you'll know how to use the [AWS Data Exchange Client Software Development Kit (SDK)][Tools] with [JavaScript / Node.JS][AWSDataExchangeSDKForJavaScript] to make a `SendApiAsset` request to an API based AWS Data Exchange product.  
 
 This will typically consist of three main stages:
 1. Import relevant SDK Clients and Interfaces, establish base Client configuration, and instantiate the Client. \
@@ -34,7 +34,7 @@ By default, this code will authenticate against AWS Data Exchange using the conf
 
 [APITestProduct]: https://us-east-1.console.aws.amazon.com/dataexchange/home?region=us-east-1#/products/prodview-pgkxrurxwmp76
 [Tools]: https://aws.amazon.com/tools/
-[JavaScript]: https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dataexchange/index.html
+[AWSDataExchangeSDKForJavaScript]: https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dataexchange/index.html
 [IAMRolesForEC2]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html
 [LambdaExecutionRole]: https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html
 [AWSConfigure]: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html
