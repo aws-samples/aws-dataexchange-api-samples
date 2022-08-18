@@ -13,15 +13,13 @@ This will typically consist of three main stages:
     (This stage will remain consistent across all uses of a given Product.
 3. Define the request-specific parameters based on your business need.
     (This stage will likely change for every request)
-Both TypeScript and native JavaScript examples are provided.  The instructions below assume working with the JavaScript file, but the same will work
-with the TypeScript file subject to it being transpiled after updates as normal.
 
 To get started, sign in to the AWS Management Console, browse to AWS Data Exchange, search for the "AWS Data Exchange for APIs (Test product)"
 Product, and subscribe.
 Copy the relevant DataSetId, RevisionId, and AssetId from the Entitled Data page and paste them into the productInfo constant below
 (you will likely find they match the sample contents).  Next, update the sendApiAssetCommandInput constant based on your desired request
 parameters.  Again, for test purposes, the provided inputs should work just fine.  Finally, install the necessary dependencies
-(@aws-sdk/client-dataexchange) using `npm install` and then execute the script with `node adx4api`.
+(@aws-sdk/client-dataexchange) using `npm install`, transpile from TypeScript to Javascript using `tsc`, and then execute the script with `node adx4api`.
 
 To assist with finding the necessary inputs for the productInfo and sendApiAssetCommandInput constants, the Data Exchange console provides
 Sample CLI requests as shown below.  The first 3 parameters map to the productInfo constant, and the rest map to sendApiAssetCommandInput
