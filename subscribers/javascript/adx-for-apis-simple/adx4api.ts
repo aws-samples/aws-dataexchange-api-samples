@@ -94,7 +94,7 @@ async function makeAdxForApiSubscriberCall (sendApiAssetCommandInput: SendApiAss
     try {
         const sendApiAssetCommandOutput: SendApiAssetCommandOutput = await dataExchangeClient.send(sendApiAssetCommand);
         console.log("Output");
-        console.log(sendApiAssetCommand);
+        console.log(sendApiAssetCommandOutput);
         } catch (err) {
         //Log errors
         console.error("Error")
