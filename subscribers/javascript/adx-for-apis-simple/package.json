@@ -1,0 +1,25 @@
+{
+  "name": "adx-for-apis-subscriber-sample-typescript",
+  "version": "1.0.0",
+  "description": "Typescript sample ADX for APIs subscriber activity",
+  "main": "adx4api.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aws-samples/aws-dataexchange-api-samples.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aws-samples/aws-dataexchange-api-samples/issues"
+  },
+  "homepage": "https://github.com/aws-samples/aws-dataexchange-api-samples#readme",
+  "dependencies": {
+    "@aws-sdk/client-dataexchange": "^3.121.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.7.4"
+  }
+}
