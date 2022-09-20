@@ -71,7 +71,7 @@ Examples of interacting with the AWS Data Exchange API from the data provider si
 
 ## Data Requests
 
-See data that you would like to get through AWS Data Exchange? Let us know by submitting a request in our [Data Set Requests repository](https://github.com/aws/aws-dataexchange-data-requests)!
+See data that you would like to get added to AWS Data Exchange? Let us know by submitting a request in our [Data Set Requests repository](https://github.com/aws/aws-dataexchange-data-requests)!
 
 ## License
 
