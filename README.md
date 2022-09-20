@@ -69,6 +69,10 @@ Examples of interacting with the AWS Data Exchange API from the data provider si
 * [AWS Data Exchange API](https://docs.aws.amazon.com/data-exchange/latest/apireference/welcome.html)
 * [AWS Marketplace Catalog API](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html)
 
+## Data Requests
+
+See data that you would like to get added to AWS Data Exchange? Let us know by submitting a request in our [Data Set Requests repository](https://github.com/aws/aws-dataexchange-data-requests)!
+
 ## License
 
 This library is licensed under the MIT-0 License. See the [LICENSE](LICENSE) file.
