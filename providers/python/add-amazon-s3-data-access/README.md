@@ -23,7 +23,7 @@ $ export AWS_SESSION_TOKEN=<your-session-token>
 The user needs the **AWSDataExchangeProviderFullAccess** IAM policy associated with your role/account. Find out more
 about IAM policies on AWS Data Exchange [here](https://docs.aws.amazon.com/data-exchange/latest/userguide/auth-access.html).
 
-The target Amazon S3 bucket must have the bucket owner enforced setting applied, and its encryption must either be SSE-S3 (recommended) or disabled. Attach the following bucket policy to grant AWS Data Exchange permissions to
+The target Amazon S3 bucket must have the bucket owner enforced setting applied. Attach the following bucket policy to grant AWS Data Exchange permissions to
 correctly manage S3 Access Points on your behalf, replacing `<Bucket ARN>` with the ARN of the target Amazon S3
 bucket:
 
@@ -73,6 +73,8 @@ Get usage help: `python3 add-amazon-s3-access.py --help`
 Share an Amazon S3 bucket: `python3 add-amazon-s3-access.py --data-set-name 'publisher-script-example' --bucket 'example-source-bucket' --region us-east-1`
 
 Share prefixes and keys within an Amazon S3 bucket: `python3 add-amazon-s3-access.py --data-set-name 'publisher-script-example' --bucket 'example-source-bucket' --region 'us-east-1' --key 'createJob.png' --prefix 'Folder1' --prefix 'Folder2'`
+
+Share prefixes and keys within an Amazon S3 bucket encrypted with customer-managed KMS: `python3 add-amazon-s3-access.py --data-set-name 'publisher-script-example-kms' --bucket 'example-source-bucket-kms' --region 'us-east-1' --key 'createJob.png' --prefix 'Folder1' --prefix 'Folder2' --kms-key-arn 'arn:aws:kms:us-east-1:123456789:key/abc-def-ghi-jkl-mno' --kms-key-arn 'arn:aws:kms:us-east-1:234567891:key/def-ghi-jkl-mno-abc'`
 
 **Note**: You may specify a `data-set-id` parameter to add an S3 data access to an existing data set. Any existing
 data access will be replaced.

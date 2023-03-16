@@ -11,7 +11,7 @@ def create_data_set(dataexchange, data_set_name):
     )
     return data_set_creation_response['Id']
 
-def add_shares(dataexchange, data_set_id, revision_id, bucket, prefix, key):
+def add_shares(dataexchange, data_set_id, revision_id, bucket, prefix, key, kms_keys):
     # Ensure that all prefixes end with a trailing slash; otherwise, these would not be resolved by Amazon S3
     def format_prefix(p):
         if p.endswith('/'):
@@ -20,8 +20,12 @@ def add_shares(dataexchange, data_set_id, revision_id, bucket, prefix, key):
 
     prefixes = list(map(format_prefix, prefix))
 
-    create_job_response = dataexchange.create_job(
-        Details={
+    def wrap_kms_key(k):
+        return {
+            "KmsKeyArn": k
+        }
+
+    create_job_details = {
             'CreateS3DataAccessFromS3Bucket': {
                 'AssetSource': {
                     'Bucket': bucket,
@@ -31,7 +35,13 @@ def add_shares(dataexchange, data_set_id, revision_id, bucket, prefix, key):
                 'DataSetId': data_set_id,
                 'RevisionId': revision_id
             }
-        },
+        }
+
+    if (len(kms_keys) > 0):
+        create_job_details['CreateS3DataAccessFromS3Bucket']['AssetSource']['KmsKeysToGrant'] = list(map(wrap_kms_key, kms_keys))
+
+    create_job_response = dataexchange.create_job(
+        Details=create_job_details,
         Type='CREATE_S3_DATA_ACCESS_FROM_S3_BUCKET'
     )
 
@@ -50,7 +60,7 @@ def wait_for_job_to_complete(dataexchange, job_id):
         job_status_response = dataexchange.get_job(JobId=job_id)
         job_state = job_status_response['State']
 
-        if job_state in ['ABORTED', 'FAILED']:
+        if job_state in ['ABORTED', 'FAILED', 'ERROR']:
             raise click.ClickException(f'Data set creation failed with status {job_state}!')
         if job_state == 'COMPLETED':
             return
@@ -66,9 +76,13 @@ def wait_for_job_to_complete(dataexchange, job_id):
 @click.option('--region', default='us-east-1', help='AWS Region of the Amazon S3 bucket, and where the data set will be.')
 @click.option('--prefix', default=[], help='Prefix of an Amazon S3 location to share. Multiple values permitted.', multiple=True)
 @click.option('--key', default=[], help='Key of an Amazon S3 object to share. Multiple values permitted.', multiple=True)
-def main(data_set_name, bucket, data_set_id, region, prefix, key):
+@click.option('--kms-key-arn', default=[], help='Amazon Resource Name of the KMS key used to encrypt the shared objects. Multiple values permitted.', multiple=True)
+def main(data_set_name, bucket, data_set_id, region, prefix, key, kms_key_arn):
     if (len(prefix) + len(key)) > 5:
         raise click.UsageError('No more than a total of 5 prefixes and keys can be provided.')
+
+    if (len(kms_key_arn)) > 10:
+        raise click.UsageError('No more than a total of 10 KMS keys can be provided.')
 
     dataexchange = boto3.client('dataexchange', region_name=region)
 
@@ -77,7 +91,7 @@ def main(data_set_name, bucket, data_set_id, region, prefix, key):
     create_revision_response = dataexchange.create_revision(DataSetId=data_set_id_to_use)
     revision_id = create_revision_response['Id']
 
-    job_id = add_shares(dataexchange, data_set_id_to_use, revision_id, bucket, prefix, key)
+    job_id = add_shares(dataexchange, data_set_id_to_use, revision_id, bucket, prefix, key, kms_key_arn)
     wait_for_job_to_complete(dataexchange, job_id)
     finalize_revision_response = dataexchange.update_revision(DataSetId=data_set_id_to_use, RevisionId=revision_id, Finalized=True)
 
