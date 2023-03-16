@@ -74,7 +74,7 @@ Share an Amazon S3 bucket: `python3 add-amazon-s3-access.py --data-set-name 'pub
 
 Share prefixes and keys within an Amazon S3 bucket: `python3 add-amazon-s3-access.py --data-set-name 'publisher-script-example' --bucket 'example-source-bucket' --region 'us-east-1' --key 'createJob.png' --prefix 'Folder1' --prefix 'Folder2'`
 
-Share prefixes and keys within an Amazon S3 bucket encrypted with customer-managed KMS: `python3 add-amazon-s3-access.py --data-set-name 'publisher-script-example-kms' --bucket 'example-source-bucket-kms' --region 'us-east-1' --key 'createJob.png' --prefix 'Folder1' --prefix 'Folder2' --kms-key-arn 'arn:aws:kms:us-east-1:123456789:key/abc-def-ghi-jkl-mno`
+Share prefixes and keys within an Amazon S3 bucket encrypted with customer-managed KMS: `python3 add-amazon-s3-access.py --data-set-name 'publisher-script-example-kms' --bucket 'example-source-bucket-kms' --region 'us-east-1' --key 'createJob.png' --prefix 'Folder1' --prefix 'Folder2' --kms-key-arn 'arn:aws:kms:us-east-1:123456789:key/abc-def-ghi-jkl-mno' --kms-key-arn 'arn:aws:kms:us-east-1:234567891:key/def-ghi-jkl-mno-abc'`
 
 **Note**: You may specify a `data-set-id` parameter to add an S3 data access to an existing data set. Any existing
 data access will be replaced.
