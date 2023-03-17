@@ -1,6 +1,6 @@
 # Add Amazon S3 Data Access (Python)
 
-This example will create a data set with for AWS Data Exchange for Amazon S3 (Preview). The data set will contain an
+This example will create a data set with for AWS Data Exchange for Amazon S3. The data set will contain an
 Amazon S3 Access Point, which enables subscribers to have read-only access to the shared locations specified. Shared
 locations can be a combination of Amazon S3 prefixes and specific keys, or an entire Amazon S3 bucket.
 
@@ -23,7 +23,12 @@ $ export AWS_SESSION_TOKEN=<your-session-token>
 The user needs the **AWSDataExchangeProviderFullAccess** IAM policy associated with your role/account. Find out more
 about IAM policies on AWS Data Exchange [here](https://docs.aws.amazon.com/data-exchange/latest/userguide/auth-access.html).
 
-The target Amazon S3 bucket must have the bucket owner enforced setting applied. Attach the following bucket policy to grant AWS Data Exchange permissions to
+Ensure that the S3 buckets hosting the data has encryption disabled or encrypted with Amazon S3-managed keys (SSE-S3) or
+customer-managed keys stored in AWS Key Management Service (AWS KMS). If you are using customer-managed keys, you must have IAM permissions
+to `kms:CreateGrant` on the KMS keys. You can access these through the key policy, IAM credentials, or through an AWS KMS grant on the KMS key.
+For more information on this, see [prerequisites](https://docs.aws.amazon.com/data-exchange/latest/userguide/publishing-products.html#publish-s3-data-access-product).
+
+The target Amazon S3 bucket also must have the bucket owner enforced setting applied. Attach the following bucket policy to grant AWS Data Exchange permissions to
 correctly manage S3 Access Points on your behalf, replacing `<Bucket ARN>` with the ARN of the target Amazon S3
 bucket:
 
