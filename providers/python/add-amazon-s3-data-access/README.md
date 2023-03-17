@@ -1,6 +1,6 @@
 # Add Amazon S3 Data Access (Python)
 
-This example will create a data set with for AWS Data Exchange for Amazon S3 (Preview). The data set will contain an
+This example will create a data set with for AWS Data Exchange for Amazon S3. The data set will contain an
 Amazon S3 Access Point, which enables subscribers to have read-only access to the shared locations specified. Shared
 locations can be a combination of Amazon S3 prefixes and specific keys, or an entire Amazon S3 bucket.
 
