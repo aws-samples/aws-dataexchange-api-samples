@@ -4,7 +4,6 @@
 
 [AWS Data Exchange](https://aws.amazon.com/data-exchange/) is a service that makes it easy for millions of AWS customers to securely find, subscribe to, and use third-party data in the cloud. This repository contains a collection of samples that interact with the AWS Data Exchange API.
 
-![Data Exchange diagram](DE-diagram.png)
 
 ## Subscriber Samples
 
@@ -52,6 +51,12 @@ Examples of interacting with the AWS Data Exchange API from the data subscriber 
 
 Examples of interacting with the AWS Data Exchange API from the data provider side can be found in [/providers](providers).
 
+### Usage Metrics
+* [Monitor Subscriber usage of AWS Data Exchange For Amazon S3 data sets](providers/usage-metrics): Deploy infrastructure to report and visualize subscriber usage on AWS Data Exchange for Amazon S3 data sets.
+
+### Python
+* [create-data-set-with-amazon-s3-access-points](providers/python/add-amazon-s3-data-access): Create a data set that will contain an Amazon S3 Access Point Asset.
+
 ### Ruby
 
 * [create-data-set-with-finalized-revision](providers/ruby/create-data-set-with-finalized-revision): Create a data set with a finalized revision.
@@ -62,7 +67,6 @@ Examples of interacting with the AWS Data Exchange API from the data provider si
 ## Other Samples
 
 * [awslabs/aws-data-exchange-publisher-coordinator](https://github.com/awslabs/aws-data-exchange-publisher-coordinator): Coordinate the publishing steps for a dataset revision based on an S3 manifest file being uploaded to the specified S3 bucket.
-* [awslabs/aws-data-exchange-subscriber-coordinator](https://github.com/awslabs/aws-data-exchange-subscriber-coordinator): Coordinate subscription steps to receive a dataset revision into S3 from AWS Data Exchange when the publisher publishes a new revision.
 
 ## API References
 
