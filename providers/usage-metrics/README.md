@@ -49,7 +49,7 @@ Failure to do so may result in Glue jobs encountering "Insufficient Lake Formati
 
 ### Example Queries
 Once the table has been created and the Job has been successful, you can query the data
-in [Amazon Athena](https://www.amazonaws.cn/en/athena/). Here are a few Sample Queries:
+in AWS Athena. Here are a few Sample Queries:
 
 * Query to see unique subscriber AWS account IDs that have accessed the AWS Data Exchange for S3 datasets in a given year and month
 ```
