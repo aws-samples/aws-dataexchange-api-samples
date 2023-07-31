@@ -1,0 +1,178 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Template for AWS Data Exchange for Amazon S3 Usage metrics infrastructure"
+
+Parameters:
+  CloudTrailName:
+    Description: Name of the Cloud Trial
+    Type: String
+    Default: "adx-for-s3-accesspoint-trail"
+  GlueDatabaseName:
+    Description: Glue database name
+    Type: String
+    Default: "adx_metrics_curated"
+  GlueScriptLocation:
+    Description: S3 path of the Glue script. Example - s3://BucketName/foldername/adx_metrics_processing.py
+    Type: String
+    Default: ""
+  GlueJobScheduledHour:
+    Description: Scheduled hour to run the glue job everyday. Allowed values - 1 to 23
+    Type: String
+    Default: "1"
+
+  
+Resources:
+
+  # Create an AWS Glue database
+  ADXmetricsdatabase:
+    Type: AWS::Glue::Database
+    Properties:
+      CatalogId: !Ref AWS::AccountId
+      DatabaseInput:
+        Name: !Sub "${GlueDatabaseName}"
+        Description: Database to hold tables for ADX for S3 usage metrics
+
+  LoggingBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: Private
+      BucketName: !Sub "adx-for-s3-${AWS::Region}-${AWS::AccountId}-metrics-bucket"
+
+  TrailBucketPolicy:
+    Type: "AWS::S3::BucketPolicy"
+    DependsOn:
+      - LoggingBucket
+    Properties:
+      Bucket: !Ref LoggingBucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: "cloudtrail.amazonaws.com"
+          Action: "s3:GetBucketAcl"
+          Resource: !Sub "arn:aws:s3:::${LoggingBucket}"
+        - Effect: Allow
+          Principal:
+            Service: "cloudtrail.amazonaws.com"
+          Action: "s3:PutObject"
+          Resource: !Sub "arn:aws:s3:::${LoggingBucket}/AWSLogs/${AWS::AccountId}/*"
+          Condition:
+            StringEquals:
+              "s3:x-amz-acl": "bucket-owner-full-control"
+
+  CloudTrail:
+    Type: "AWS::CloudTrail::Trail"
+    DependsOn:
+      - TrailBucketPolicy
+      - LoggingBucket
+    Properties:
+      IsLogging: true
+      S3BucketName: !Ref LoggingBucket    # the name of the Amazon S3 bucket designated for publishing log files
+      TrailName: !Ref CloudTrailName
+      IsMultiRegionTrail: true
+      IncludeGlobalServiceEvents: true
+      AdvancedEventSelectors:
+        - FieldSelectors:
+          - Field: resources.type
+            Equals: 
+              - AWS::S3::AccessPoint
+          - Field: eventCategory
+            Equals: 
+              - Data
+          - Field: readOnly
+            Equals:
+              - true
+
+  GlueJobRole: 
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: "adx-for-s3-glue-job-role"
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: glue.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Path: /
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole
+      Policies:
+        - PolicyName: S3ReadAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 's3:GetObject'
+                  - "s3:ListBucket"
+                Resource:
+                  - !Join 
+                    - ''
+                    - - 'arn:aws:s3:::'
+                      - !Select 
+                        - 1
+                        - !Split 
+                          - 's3://'
+                          - !Ref GlueScriptLocation
+        - PolicyName: S3ReadWriteAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 's3:GetObject'
+                  - "s3:ListBucket"
+                  - 's3:PutObject'
+                  - 's3:DeleteObject'
+                Resource: 
+                  - !Sub "arn:aws:s3:::${LoggingBucket}"
+                  - !Sub "arn:aws:s3:::${LoggingBucket}/*"
+  GlueJob:
+    Type: AWS::Glue::Job
+    DependsOn: GlueJobRole
+    Properties: 
+      Name: "adx-for-s3-glue-job"
+      Description: "Glue Job for ADX for S3 metrics"
+      MaxRetries: 1
+      Role: !Ref GlueJobRole
+      WorkerType: G.1X
+      ExecutionClass: STANDARD
+      GlueVersion: "3.0"
+      NumberOfWorkers: 10
+      Timeout: 2880
+      DefaultArguments: 
+        "--OVERRIDE_S3_READ_PATH" : "no"
+        "--S3_READ_PATH" : !Sub "s3://${LoggingBucket}/AWSLogs/${AWS::AccountId}/CloudTrail/*/*/*/*/"
+        "--enable-glue-datacatalog" : "true"
+        "--S3_WRITE_PATH" : !Sub "s3://${LoggingBucket}/adx_for_s3_metrics"
+        "--job-bookmark-option" : "job-bookmark-enable"
+        "--TempDir" : !Sub "s3://${LoggingBucket}/glue/temporary/"
+        "--S3_CLOUDTRAIL_BASE_PATH" : !Sub "s3://${LoggingBucket}/AWSLogs/${AWS::AccountId}/CloudTrail/*"
+        "--enable-metrics" : "true"
+        "--enable-spark-ui" : "true"
+        "--encryption-type" : "sse-s3"
+        "--spark-event-logs-path" : !Sub "s3://${LoggingBucket}/glue/sparkHistoryLogs/"
+        "--enable-job-insights" : "true"
+        "--GLUE_DATABASE" : !Sub "${GlueDatabaseName}"
+        "--GLUE_TABLE_NAME" : "adx_for_s3_metrics"
+        "--enable-continuous-cloudwatch-log" : "true"
+        "--job-language" : "python"
+        "--enable-auto-scaling" : "true"
+      
+      Command:
+        Name: glueetl
+        PythonVersion: 3
+        ScriptLocation: !Sub ${GlueScriptLocation}
+  
+  GlueJobScheduledJobTrigger:
+    Type: AWS::Glue::Trigger
+    DependsOn: GlueJob
+    Properties:
+      Type: SCHEDULED
+      Description: Glue job schedule for ADX for S3 metrics
+      Schedule: !Sub cron(0 ${GlueJobScheduledHour} * * ? *)
+      StartOnCreation: true
+      Actions:
+        - JobName: "adx-for-s3-glue-job"
+      Name: "adx-for-s3-job-schedule"
