@@ -34,7 +34,7 @@ print("Job Parameters - End")
 
 
 
-##s3_read_path
+##Determine s3_read_path
 
 if args['OVERRIDE_S3_READ_PATH'].upper() == 'YES':
     s3_read_path=args['S3_READ_PATH']
@@ -51,7 +51,7 @@ else:
 
 print("S3 Read Path : ", s3_read_path)
 
-##Start Spark 
+##Start Spark Job
 
 sc = SparkContext()
 
