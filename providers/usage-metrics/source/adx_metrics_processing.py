@@ -1,4 +1,5 @@
 import sys
+import os
 from awsglue.transforms import *
 from awsglue.utils import getResolvedOptions
 from pyspark.context import SparkContext
@@ -6,8 +7,10 @@ from awsglue.context import GlueContext
 from awsglue.job import Job
 from datetime import date
 from datetime import timedelta
-from  pyspark.sql.functions import input_file_name
+from pyspark.sql.functions import input_file_name
 from awsglue.dynamicframe import DynamicFrame
+from pyspark.sql.utils import AnalysisException
+import boto3
 
 ## @params: [JOB_NAME,S3_CLOUDTRAIL_BASE_PATH, S3_WRITE_PATH, GLUE_DATABASE, GLUE_TABLE_NAME, OVERRIDE_S3_READ_PATH, S3_READ_PATH]
 args = getResolvedOptions(sys.argv, ['JOB_NAME',
@@ -26,26 +29,29 @@ print("S3_WRITE_PATH : ", args['S3_WRITE_PATH'])
 print("GLUE_DATABASE : ", args['GLUE_DATABASE'])
 print("GLUE_TABLE_NAME : ", args['GLUE_TABLE_NAME'])
 print("OVERRIDE_S3_READ_PATH : ", args['OVERRIDE_S3_READ_PATH'])
-print("S3_READ_PATH : ", args['S3_READ_PATH'])
+#print("S3_READ_PATH : ", args['S3_READ_PATH'])
 print("Job Parameters - End")
 
-##Construct directory for previous day logs:
-today = date.today()
-previous_day = today - timedelta(days = 1)
-print("Process Cloud Trail Logs for : ", previous_day)
 
-year=previous_day.year
-month='{:02d}'.format(previous_day.month)
-day='{:02d}'.format(previous_day.day)
 
-##s3_read_path
+##Determine s3_read_path
 
 if args['OVERRIDE_S3_READ_PATH'].upper() == 'YES':
     s3_read_path=args['S3_READ_PATH']
 else:
+    ##Construct directory for previous day logs:
+    today = date.today()
+    previous_day = today - timedelta(days = 1)
+    print("Process Cloud Trail Logs for : ", previous_day)
+
+    year=previous_day.year
+    month='{:02d}'.format(previous_day.month)
+    day='{:02d}'.format(previous_day.day)
     s3_read_path=args['S3_CLOUDTRAIL_BASE_PATH'] + '/' + str(year) + '/' + str(month) + '/' + str(day) + '/' 
 
-print("S3 read path : ", s3_read_path)
+print("S3 Read Path : ", s3_read_path)
+
+##Start Spark Job
 
 sc = SparkContext()
 
@@ -56,11 +62,20 @@ job.init(args['JOB_NAME'], args)
 
 print("Spark Job Start")
 
-#read json filess
-dataFrame = spark.read\
-    .option("multiline", "true")\
-    .json(s3_read_path)
-    
+#read cloudtrail log files
+try:
+    dataFrame = spark.read\
+        .option("multiline", "true")\
+        .json(s3_read_path)
+except AnalysisException as err:
+    #print(f"{type(err).__name__} was raised: {err}")
+    print(err)
+    #err1="Something Else"
+    if (str(err).split(':')[0] == "Path does not exist"):
+        job.commit()
+        os._exit(0)
+    else:
+        raise err
 
 dataFrame_files=dataFrame.withColumn("filename", input_file_name())
 
@@ -138,3 +153,4 @@ print("Spark Job End")
 
     
 job.commit()
+
