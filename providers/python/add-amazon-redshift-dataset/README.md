@@ -1,7 +1,7 @@
 # Add Amazon Redshift Datashare Dataset (Python)
 
 This example will create a data set for Amazon Redshift Datashare. The data set will contain an
-Amazon Redshift Datashare, which enables subscribers to have read-only access to the shared tables and views in the Datashare.
+Amazon Redshift Datashare, which enables subscribers to have read-only access to shared tables and views added to the Datashare.
 
 ### Setup
 
@@ -23,7 +23,7 @@ $ export AWS_SESSION_TOKEN=<your-session-token>
 The user needs the **AWSDataExchangeProviderFullAccess** IAM policy associated with your role/account. Find out more
 about IAM policies on AWS Data Exchange [here](https://docs.aws.amazon.com/data-exchange/latest/userguide/auth-access.html).
 
-The user should create an Amazon Redshift Datashare managed by ADX using Amazon serverless or RA3 provisioned clusters.  
+The user should create an Amazon Redshift Datashare managed by ADX using Amazon Redshift serverless or RA3 provisioned clusters.  
 ```
 CREATE DATASHARE [datashare_name] SET PUBLICACCESSIBLE TRUE, MANAGEDBY ADX;
 ALTER DATASHARE [datashare_name] ADD SCHEMA [schema]
@@ -32,6 +32,7 @@ ALTER DATASHARE [datashare_name] ADD FUNCTION [function_name]
 ```
 
 You can then note down the Datashare ARN from the console by choosing the Datashare created.
+
 ![copy_datashare_arn](datashare_arn.png)
 
 ### Example Usage
