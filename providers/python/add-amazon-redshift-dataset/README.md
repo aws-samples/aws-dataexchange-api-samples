@@ -23,9 +23,11 @@ $ export AWS_SESSION_TOKEN=<your-session-token>
 The user needs the **AWSDataExchangeProviderFullAccess** IAM policy associated with your role/account. Find out more
 about IAM policies on AWS Data Exchange [here](https://docs.aws.amazon.com/data-exchange/latest/userguide/auth-access.html).
 
-The user should create an Amazon Redshift Datashare managed by ADX using Amazon Redshift serverless or RA3 provisioned clusters.  
+The user should create an Amazon Redshift Datashare managed by ADX using Amazon Redshift serverless or RA3 provisioned clusters. The following are template
+queries that can be executed from your Redshift Query editor. You can learn more on how to create datashares managed
+by aws data exchange [here](https://docs.aws.amazon.com/redshift/latest/dg/adx-getting-started-producer.html).
 ```
-CREATE DATASHARE [datashare_name] SET PUBLICACCESSIBLE TRUE, MANAGEDBY ADX;
+CREATE DATASHARE [datashare_name] MANAGEDBY ADX;
 ALTER DATASHARE [datashare_name] ADD SCHEMA [schema]
 ALTER DATASHARE [datashare_name] ADD TABLE [table_name]
 ALTER DATASHARE [datashare_name] ADD FUNCTION [function_name]
