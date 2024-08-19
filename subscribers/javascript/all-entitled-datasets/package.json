@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/aws-samples/aws-dataexchange-api-samples#readme",
   "dependencies": {
-    "@aws-sdk/client-dataexchange": "^3.370.0",
+    "@aws-sdk/client-dataexchange": "^3.632.0",
     "@types/node": "^12.12.2",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"
